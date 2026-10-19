@@ -833,6 +833,94 @@ html.mouse .pfs-hint{display:none!important}
 html.emb #mbar .mb-n{display:none}
 
 </style>
+<style>
+/* ===== calculadora de fluxo de pagamento ===== */
+.cx{display:grid;gap:14px;max-width:1120px;min-width:0}
+.cx-top{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:12px 16px;align-items:end}
+.cx-fld{display:grid;gap:4px;min-width:0}
+.cx-lab{font-size:13.5px;font-weight:700;color:var(--muted)}
+.cx-fld select{box-sizing:border-box;width:100%;min-width:0;min-height:44px;border:1.5px solid #C3CCD8;border-radius:8px;background:#fff;padding:6px 10px;font-size:16px;color:var(--ink)}
+.cx-in{display:flex;align-items:center;gap:6px;box-sizing:border-box;min-height:44px;border:1.5px solid #C3CCD8;border-radius:8px;background:#fff;padding:0 11px;min-width:0}
+.cx-in i{font-style:normal;font-weight:700;color:var(--muted);flex:none}
+.cx-in input{all:unset;display:block;box-sizing:border-box;flex:1;min-width:0;width:100%;text-align:right;padding:9px 0;font-size:16px;color:var(--ink);font-variant-numeric:tabular-nums;-webkit-user-select:text;user-select:text}
+.cx-in:focus-within,.cx-fld select:focus-visible{outline:2px solid var(--amber);outline-offset:1px;border-color:var(--navy3)}
+.cx-in.bad{border-color:var(--bad);background:#FFF5F4}
+.cx-info{margin:0}
+.cx-top-card{display:grid;gap:10px}
+.cx-top-card .callout{margin:0}
+.cx-flux{display:flex;flex-wrap:wrap;gap:8px}
+.cx-act{margin-top:2px;align-items:stretch}
+.cx-act .btn{display:inline-flex;align-items:center;justify-content:center;text-align:center}
+.cx-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:14px;align-items:start;min-width:0}
+.cx-blocks{display:grid;gap:12px;min-width:0}
+.cx-b{display:grid;gap:10px;padding:14px 16px}
+.cx-bh{display:flex;align-items:baseline;justify-content:space-between;gap:4px 12px;flex-wrap:wrap}
+.cx-b .cx-bh h3{margin:0}
+.cx-bt{font-size:14px;color:var(--navy3);font-weight:700;font-variant-numeric:tabular-nums}
+.cx-bn{margin:-4px 0 0;font-size:13.5px;color:var(--muted)}
+.cx-f{display:grid;grid-template-columns:minmax(0,.75fr) minmax(0,1.5fr) minmax(0,1fr);gap:10px}
+.cx-f.two{grid-template-columns:minmax(0,1.5fr) minmax(0,1fr)}
+.cx-freq{display:flex;align-items:center;gap:6px 12px;flex-wrap:wrap}
+.cx-freq .seg button{min-height:40px;display:inline-flex;align-items:center;padding:0 14px;box-sizing:border-box}
+.cx-fq{color:var(--muted);font-size:13.5px}
+.cx-sum{display:grid;gap:10px;align-content:start;min-width:0}
+.cx-sum h2{margin:0}
+.cx-li{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:7px 0;border-top:1px solid var(--line)}
+#cx-lista .cx-li:first-child{border-top:0}
+.cx-li .a{min-width:0}
+.cx-li .a b,.cx-li .b b{display:block;color:var(--navy)}
+.cx-li small{display:block;color:var(--muted);font-size:13.5px;line-height:1.3}
+.cx-li .b{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.cx-li.off{opacity:.5}
+.cx-totais{border-top:2px solid var(--navy);padding-top:2px}
+.cx-totais .cx-li{border-top:0;padding:4px 0;align-items:baseline}
+.cx-totais .cx-li .b{color:var(--navy);font-weight:700}
+.cx-st{display:block;box-sizing:border-box;border-radius:9px;padding:8px 11px;font-weight:700;font-size:14.5px;line-height:1.3}
+.cx-flux .cx-st{display:inline-block}
+.cx-st.ok{background:#E3F0E8;color:var(--ok)}
+.cx-st.warn{background:#FCEBD5;color:var(--warn)}
+.cx-st.bad{background:#FBE4E1;color:var(--bad)}
+.cx-fix{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.cx-fix .btn,.cx-act .btn,.cx-sum .actions .btn{min-height:40px}
+.cx-mini{display:none}
+@media (min-width:1000px){
+  .cx-grid{grid-template-columns:minmax(0,1.5fr) minmax(310px,1fr)}
+  .cx-sum{position:sticky;top:0}
+}
+@media (max-width:999px){
+  .cx-mini{display:flex;position:sticky;bottom:0;z-index:6;align-items:center;justify-content:space-between;gap:10px;box-sizing:border-box;padding:8px 10px 8px 14px;border-radius:12px;border:1.5px solid var(--navy);background:#fff;box-shadow:0 -6px 18px rgba(15,39,68,.16);font-weight:700;font-size:15px}
+  .cx-mini.ok{border-color:var(--ok);color:var(--ok)}
+  .cx-mini.warn{border-color:var(--warn);color:var(--warn)}
+  .cx-mini.bad{border-color:var(--bad);color:var(--bad)}
+  .cx-mini .btn{flex:none;min-height:42px}
+}
+@media (max-width:700px){
+  .cx-top{grid-template-columns:minmax(0,1fr)}
+  .cx-f{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .cx-f .q{order:1}
+  .cx-f .p{order:2}
+  .cx-f .v{order:3;grid-column:1/-1}
+  .cx-f.two{grid-template-columns:minmax(0,1.4fr) minmax(0,1fr)}
+}
+/* celular deitado (menu em trilho): com 7 itens, botões um pouco mais baixos para caber sem rolar */
+@media (max-height:520px) and (orientation:landscape){
+  .nav{gap:1px}
+  .nav button{min-height:38px;padding:5px 0}
+  .cx-mini{padding:4px 8px 4px 12px;font-size:14px}
+  .cx-mini .btn{min-height:36px}
+}
+@media (max-height:400px) and (orientation:landscape){
+  .brand{display:none}
+}
+/* menu com 7 itens no celular em pé: a aba nova mostra o nome curto */
+.nav button .s{display:none}
+@media (max-width:700px) and (min-height:521px), (max-width:700px) and (orientation:portrait) and (min-height:361px){
+  .nav{grid-template-columns:repeat(7,minmax(0,1fr))}
+  .nav button[data-nav=calculadora] span:not(.s){display:none}
+  .nav button[data-nav=calculadora] .s{display:block}
+}
+
+</style>
 </head>
 <body>
 <div id="app">
@@ -909,6 +997,340 @@ window.AQ = {"meta":{"nome":"Skyline Living","construtora":"EJM","local":"Penha/
 })();
 \u003c/script>
 <script>
+/* Calculadora de fluxo de pagamento (módulo único, usado pelos painéis Skyline Living e Aquarella UP).
+   Entrada, parcelas mensais, reforços (semestrais ou anuais, em dois grupos) e chaves, sobre o valor de uma unidade da tabela
+   ou de outro valor. Só valores nominais: não calcula correção nem juros e não projeta valorização, retorno ou locação. */
+(function () {
+'use strict';
+
+/* ===================================================================== contas (sem tela) */
+const r2 = v => (v < 0 ? -1 : 1) * Math.round(Math.abs(v) * 100 + 1e-6) / 100;
+const FREQ = { sem: { meses: 6, plural: 'semestrais', nome: 'Semestrais' }, anu: { meses: 12, plural: 'anuais', nome: 'Anuais' } };
+
+function parseBR(s) {                      // "1.234,56", "1234,5", "1234.56", "R$ 10.000" → número; vazio → 0; inválido → NaN
+  s = String(s == null ? '' : s).replace(/R\$|%|\s| /g, '');
+  if (s === '') return 0;
+  if (!/^[0-9.,]+$/.test(s)) return NaN;
+  if (s.indexOf(',') >= 0) {
+    if ((s.match(/,/g) || []).length > 1) return NaN;
+    s = s.replace(/\./g, '').replace(',', '.');
+  } else if (/^\d{1,3}(\.\d{3})+$/.test(s)) s = s.replace(/\./g, '');          // 1.234.567 = milhar
+  else if ((s.match(/\./g) || []).length > 1) return NaN;
+  const v = parseFloat(s);
+  return isFinite(v) ? v : NaN;
+}
+function parseInt0(s) {                    // só dígitos; vazio → 0
+  s = String(s == null ? '' : s).replace(/\s| /g, '');
+  if (s === '') return 0;
+  return /^\d{1,4}$/.test(s) ? parseInt(s, 10) : NaN;
+}
+const tot = g => r2(g.n * g.v);
+const somar = st => r2(st.ent + tot(st.men) + tot(st.r1) + tot(st.r2) + st.chv);
+const diferenca = st => r2(st.preco - somar(st));
+function veredito(d) {                      // a própria tabela da EJM fecha com até R$ 3,00 de arredondamento
+  const a = Math.abs(d);
+  if (a < 0.005) return 'exato';
+  if (a <= 3) return 'centavos';
+  return d > 0 ? 'falta' : 'passa';
+}
+function dur(m) {
+  const a = Math.floor(m / 12), r = m % 12, p = [];
+  if (a) p.push(a + (a === 1 ? ' ano' : ' anos'));
+  if (r) p.push(r + (r === 1 ? ' mês' : ' meses'));
+  return p.join(' e ') || '0 mês';
+}
+function fluxoDaUnidade(u, F) {
+  return { preco: u.valor, ref: u.valor, ent: u.entrada, men: { n: F.nMensal, v: u.mensal },
+    r1: { n: F.nObra, v: u.refObra, f: F.freqObra || null }, r2: { n: F.nPos, v: u.refPos, f: F.freqPos || null }, chv: u.chaves };
+}
+function fluxoPadrao(preco, F) {            // percentuais e quantidades da tabela aplicados a outro valor
+  const p = x => r2(preco * x / 100), cada = (x, n) => (n ? r2(preco * x / 100 / n) : 0);
+  return { preco, ref: preco, ent: p(F.entrada), men: { n: F.nMensal, v: cada(F.mensal, F.nMensal) },
+    r1: { n: F.nObra, v: cada(F.obra, F.nObra), f: F.freqObra || null }, r2: { n: F.nPos, v: cada(F.pos, F.nPos), f: F.freqPos || null }, chv: p(F.chaves) };
+}
+function escalar(st, novo, F) {             // muda o valor do imóvel mantendo os percentuais do fluxo
+  if (!(novo > 0)) return st;
+  if (!(st.ref > 0) || somar(st) <= 0) return fluxoPadrao(novo, F);
+  const k = novo / st.ref, s = x => r2(x * k);
+  return { preco: novo, ref: novo, ent: s(st.ent), men: { n: st.men.n, v: s(st.men.v) },
+    r1: { n: st.r1.n, v: s(st.r1.v), f: st.r1.f }, r2: { n: st.r2.n, v: s(st.r2.v), f: st.r2.f }, chv: s(st.chv) };
+}
+function igual(a, b) {                      // fluxo igual ao da tabela (centavos de folga; a periodicidade só conta se a tabela a informa)
+  const m = (x, y) => Math.abs(x - y) < 0.005;
+  const g = (x, y) => x.n === y.n && m(x.v, y.v) && (!y.f || x.f === y.f);
+  return !!b && m(a.preco, b.preco) && m(a.ent, b.ent) && g(a.men, b.men) && g(a.r1, b.r1) && g(a.r2, b.r2) && m(a.chv, b.chv);
+}
+const core = { r2, parseBR, parseInt0, tot, somar, diferenca, veredito, dur, fluxoDaUnidade, fluxoPadrao, escalar, igual, FREQ };
+
+/* ===================================================================== tela */
+function criar(X) {
+  const F = X.fluxo, AQ = X.AQ, esc = X.esc, brl = X.brl, nf2 = X.nf2, NB = X.NB;
+  const $ = (s, el) => (el || document).querySelector(s);
+  const $$ = (s, el) => Array.prototype.slice.call((el || document).querySelectorAll(s));
+  const fm = v => nf2.format(v);
+  const m2 = v => nf2.format(v) + NB + 'm²';
+
+  let ST = null, BASE = null, SEL = null, root = null, inputs = [];
+
+  const lista = () => X.units().slice().sort((a, b) => a.u - b.u);
+  const unidade = n => lista().find(u => u.u === n) || null;
+  function padrao() {
+    const L = lista(), ok = L.filter(u => !u.flag), base = ok.length ? ok : L;
+    return base.reduce((b, u) => (!b || u.valor < b.valor ? u : b), null);
+  }
+  function carregar(u) { SEL = u.u; ST = fluxoDaUnidade(u, F); BASE = JSON.parse(JSON.stringify(ST)); }
+  function garantir() {
+    if (SEL != null && !unidade(SEL)) { SEL = null; ST = null; }          // a unidade saiu da tabela (vendida)
+    if (ST) return;
+    const u = padrao();
+    if (u) carregar(u); else { SEL = null; BASE = null; ST = fluxoPadrao(0, F); }
+  }
+  const pct = v => (ST.preco > 0 ? v / ST.preco * 100 : 0);
+
+  const FIELDS = {
+    preco: { kind: 'money', get: () => ST.preco, set: v => { ST.preco = v; } },
+    'ent-v': { kind: 'money', get: () => ST.ent, set: v => { ST.ent = v; } },
+    'ent-p': { kind: 'pct', get: () => pct(ST.ent), set: p => { ST.ent = r2(ST.preco * p / 100); } },
+    'men-n': { kind: 'int', max: 600, get: () => ST.men.n, set: n => { ST.men.n = n; } },
+    'men-v': { kind: 'money', get: () => ST.men.v, set: v => { ST.men.v = v; } },
+    'men-p': { kind: 'pct', get: () => pct(tot(ST.men)), set: p => { ST.men.v = ST.men.n ? r2(ST.preco * p / 100 / ST.men.n) : 0; } },
+    'r1-n': { kind: 'int', max: 120, get: () => ST.r1.n, set: n => { ST.r1.n = n; } },
+    'r1-v': { kind: 'money', get: () => ST.r1.v, set: v => { ST.r1.v = v; } },
+    'r1-p': { kind: 'pct', get: () => pct(tot(ST.r1)), set: p => { ST.r1.v = ST.r1.n ? r2(ST.preco * p / 100 / ST.r1.n) : 0; } },
+    'r2-n': { kind: 'int', max: 120, get: () => ST.r2.n, set: n => { ST.r2.n = n; } },
+    'r2-v': { kind: 'money', get: () => ST.r2.v, set: v => { ST.r2.v = v; } },
+    'r2-p': { kind: 'pct', get: () => pct(tot(ST.r2)), set: p => { ST.r2.v = ST.r2.n ? r2(ST.preco * p / 100 / ST.r2.n) : 0; } },
+    'chv-v': { kind: 'money', get: () => ST.chv, set: v => { ST.chv = v; } },
+    'chv-p': { kind: 'pct', get: () => pct(ST.chv), set: p => { ST.chv = r2(ST.preco * p / 100); } }
+  };
+  const fmtField = k => { const f = FIELDS[k], v = f.get(); return f.kind === 'int' ? String(v) : fm(v); };
+
+  /* ---------- HTML */
+  function campo(k, rotulo, extra) {
+    const f = FIELDS[k];
+    const pre = f.kind === 'money' ? '<i>R$</i>' : '', pos = f.kind === 'pct' ? '<i>%</i>' : '';
+    return '<label class="cx-fld ' + (extra || '') + '"><span class="cx-lab">' + rotulo + '</span><span class="cx-in">' + pre +
+      '<input type="text" data-cx="' + k + '" id="cx-' + k + '" inputmode="' + (f.kind === 'int' ? 'numeric' : 'decimal') + '" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="done" value="' + fmtField(k) + '">' + pos + '</span></label>';
+  }
+  function freqRow(g, nome) {
+    return '<div class="cx-freq"><span class="cx-lab">Periodicidade</span><div class="seg" role="group" aria-label="Periodicidade dos reforços de ' + nome + '">' +
+      Object.keys(FREQ).map(k => '<button type="button" data-cx-freq="' + g + '" data-v="' + k + '">' + FREQ[k].nome + '</button>').join('') +
+      '</div><small class="cx-fq" id="cx-fq-' + g + '"></small></div>';
+  }
+  function bloco(id, titulo, nota, corpo) {
+    return '<section class="card cx-b" data-b="' + id + '"><div class="cx-bh"><h3>' + titulo + '</h3><span class="cx-bt" id="cx-t-' + id + '"></span></div>' +
+      (nota ? '<p class="cx-bn">' + nota + '</p>' : '') + corpo + '</section>';
+  }
+  function avisos(u) {
+    if (!u) return '';
+    let h = '';
+    if (u.flag) h += '<div class="callout warn"><b>Dado a confirmar com a EJM:</b> ' + esc(u.flag) + '</div>';
+    const p = X.promo ? X.promo(u) : null;
+    if (p) h += '<div class="callout"><b>Condição promocional cadastrada:</b> ' + esc(p.cond) + (p.validade ? ' · validade ' + esc(X.fmtDate(p.validade)) : '') +
+      '<br>A calculadora parte do fluxo da tabela; a condição promocional não entra na conta.</div>';
+    return h;
+  }
+  function render() {
+    garantir();
+    const u = SEL != null ? unidade(SEL) : null;
+    const opts = '<option value="">Outro valor (sem unidade)</option>' + lista().map(x => '<option value="' + x.u + '"' + (x.u === SEL ? ' selected' : '') + '>Unidade ' + x.u +
+      ' · ' + m2(x.area) + ' · ' + brl(x.valor) + (x.flag ? ' · dado a confirmar' : '') + '</option>').join('');
+    const info = u ? esc(X.detalhe(u)) + ' · ' + brl(u.m2) + ' por m²'
+      : 'Digite o valor do imóvel: o fluxo sai com os percentuais da tabela (' + F.entrada + '% de entrada, ' + F.nMensal + ' mensais, reforços e chaves).';
+    const top = '<section class="card cx-top-card"><div class="cx-top">' +
+      '<label class="cx-fld"><span class="cx-lab">Imóvel</span><select id="cx-un" data-cx-un>' + opts + '</select></label>' +
+      '<label class="cx-fld"><span class="cx-lab">Valor do imóvel</span><span class="cx-in"><i>R$</i><input type="text" data-cx="preco" id="cx-preco" inputmode="decimal" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="done" value="' + fmtField('preco') + '"></span></label>' +
+      '</div><p class="small-note cx-info" id="cx-info">' + info + '</p>' + avisos(u) +
+      '<div class="cx-flux"><span class="cx-st ok" id="cx-flux"></span></div>' +
+      '<div class="actions cx-act"><button type="button" class="btn sm" data-cx-act="reset">' + (u ? 'Voltar ao fluxo da tabela' : 'Aplicar os percentuais da tabela') + '</button>' +
+      '<button type="button" class="btn sm" data-cx-act="clear">Limpar valores</button></div></section>';
+    const blocos =
+      bloco('ent', 'Entrada', '', '<div class="cx-f two">' + campo('ent-v', 'Valor') + campo('ent-p', '% do imóvel') + '</div>') +
+      bloco('men', 'Parcelas mensais', '', '<div class="cx-f">' + campo('men-n', 'Quantidade', 'q') + campo('men-v', 'Valor de cada parcela', 'v') + campo('men-p', '% do imóvel', 'p') + '</div>') +
+      bloco('r1', 'Reforços de obra', '', freqRow('r1', 'obra') + '<div class="cx-f">' + campo('r1-n', 'Quantidade', 'q') + campo('r1-v', 'Valor de cada reforço', 'v') + campo('r1-p', '% do imóvel', 'p') + '</div>') +
+      bloco('r2', 'Reforços pós-obra', '', freqRow('r2', 'pós-obra') + '<div class="cx-f">' + campo('r2-n', 'Quantidade', 'q') + campo('r2-v', 'Valor de cada reforço', 'v') + campo('r2-p', '% do imóvel', 'p') + '</div>') +
+      bloco('chv', 'Chaves', F.chavesNota ? esc(F.chavesNota.charAt(0).toUpperCase() + F.chavesNota.slice(1)) + '.' : '', '<div class="cx-f two">' + campo('chv-v', 'Valor') + campo('chv-p', '% do imóvel') + '</div>');
+    const resumo = '<aside class="card cx-sum" id="cx-sum"><h2>Resumo do fluxo</h2><div id="cx-lista"></div>' +
+      '<div class="cx-totais"><div class="cx-li"><span class="a"><b>Soma do fluxo</b></span><span class="b" id="cx-soma"></span></div>' +
+      '<div class="cx-li"><span class="a"><b>Valor do imóvel</b></span><span class="b" id="cx-valor"></span></div></div>' +
+      '<div class="cx-st ok" id="cx-saldo" role="status"></div>' +
+      '<div class="cx-fix" id="cx-fix"><span class="cx-lab">Fechar o saldo:</span><button type="button" class="btn sm" data-cx-act="fix" data-k="ent">na entrada</button>' +
+      '<button type="button" class="btn sm" data-cx-act="fix" data-k="men">nas mensais</button><button type="button" class="btn sm" data-cx-act="fix" data-k="chv">nas chaves</button></div>' +
+      '<div class="actions"><button type="button" class="btn primary" data-cx-act="copy">Copiar resumo</button></div>' +
+      '<p class="small-note">Valores nominais da tabela ' + esc(X.nomeTabela()) + ', sem correção. Correção: ' + esc(AQ.meta.correcao) + '. ' + esc(AQ.meta.aviso) + '</p></aside>';
+    const mini = '<div class="cx-mini" id="cx-mini" role="status"><span id="cx-mini-t"></span><button type="button" class="btn sm primary" id="cx-mini-b" data-cx-act="mini"></button></div>';
+    return '<header class="page-h"><div><div class="eyebrow">' + esc(X.titulo) + ' · Simulação com o cliente</div><h1>Calculadora de fluxo de pagamento</h1>' +
+      '<p class="sub">Entrada, parcelas mensais, reforços semestrais ou anuais e chaves. Valores nominais da tabela ' + esc(X.nomeTabela()) + '.</p></div></header>' +
+      '<div class="cx" id="cx">' + top + '<div class="cx-grid"><div class="cx-blocks">' + blocos + '</div>' + resumo + '</div>' + mini + '</div>';
+  }
+
+  /* ---------- texto da simulação */
+  const nomeG = { r1: 'Reforços de obra', r2: 'Reforços pós-obra' };
+  function linhas() {
+    const s = ST, L = [];
+    L.push({ k: 'ent', nome: 'Entrada', det: '1 × ' + brl(s.ent), total: s.ent, usa: s.ent > 0 });
+    L.push({ k: 'men', nome: 'Parcelas mensais', det: s.men.n + ' × ' + brl(s.men.v), total: tot(s.men), usa: s.men.n > 0 && s.men.v > 0 });
+    ['r1', 'r2'].forEach(g => {
+      const x = s[g], fq = x.f ? FREQ[x.f] : null;
+      L.push({ k: g, nome: nomeG[g] + (fq ? ' · ' + fq.plural : ' · periodicidade a confirmar'), det: x.n + ' × ' + brl(x.v) + (fq ? ' (a cada ' + fq.meses + ' meses)' : ''), total: tot(x), usa: x.n > 0 && x.v > 0 });
+    });
+    L.push({ k: 'chv', nome: 'Chaves', det: '1 × ' + brl(s.chv), total: s.chv, usa: s.chv > 0 });
+    return L;
+  }
+  function texto() {
+    const s = ST, u = SEL != null ? unidade(SEL) : null, d = diferenca(s), v = veredito(d), P = x => fm(pct(x)) + '%';
+    const T = [];
+    T.push(X.titulo + ' · Simulação de fluxo de pagamento');
+    if (u) T.push('Unidade ' + u.u + ' (' + X.detalhe(u) + ')');
+    T.push(u && Math.abs(s.preco - u.valor) < 0.005 ? 'Valor de tabela (' + X.nomeTabela() + '): ' + brl(s.preco) : (u ? 'Valor informado: ' + brl(s.preco) + ' (valor de tabela: ' + brl(u.valor) + ')' : 'Valor informado: ' + brl(s.preco)));
+    const lh = linhas();
+    lh.filter(l => l.usa).forEach(l => {
+      if (l.k === 'ent') T.push('• Entrada: ' + brl(s.ent) + ' (' + P(s.ent) + ')');
+      else if (l.k === 'chv') T.push('• Chaves: ' + brl(s.chv) + ' (' + P(s.chv) + ')' + (F.chavesNota ? ' · ' + F.chavesNota : ''));
+      else if (l.k === 'men') T.push('• ' + s.men.n + (s.men.n === 1 ? ' parcela mensal' : ' parcelas mensais') + ' de ' + brl(s.men.v) + ' = ' + brl(l.total) + ' (' + P(l.total) + ')');
+      else { const x = s[l.k], fq = x.f ? FREQ[x.f] : null; T.push('• ' + x.n + (x.n === 1 ? ' reforço ' : ' reforços ') + (l.k === 'r1' ? 'de obra' : 'pós-obra') + (fq ? ' ' + (x.n === 1 ? fq.plural.replace(/ais$/, 'al') : fq.plural) : ' (periodicidade a confirmar)') + ' de ' + brl(x.v) + ' = ' + brl(l.total) + ' (' + P(l.total) + ')'); }
+    });
+    T.push('Soma do fluxo: ' + brl(somar(s)));
+    if (v === 'centavos') T.push('Diferença de ' + brl(Math.abs(d)) + ' entre a soma do fluxo e o valor do imóvel.');
+    else if (v === 'falta') T.push('ATENÇÃO: o fluxo não fecha com o valor do imóvel: faltam ' + brl(d) + '.');
+    else if (v === 'passa') T.push('ATENÇÃO: o fluxo passa ' + brl(-d) + ' do valor do imóvel.');
+    if (SEL == null) T.push('Fluxo montado com os percentuais da tabela sobre outro valor: confirmar com a EJM.');
+    else if (!igual(s, BASE)) T.push('Fluxo ajustado: não é o fluxo da tabela; confirmar com a EJM antes de apresentar.');
+    T.push('Valores nominais, sem correção. Correção: ' + AQ.meta.correcao);
+    T.push(AQ.meta.aviso);
+    return T.join('\n');
+  }
+
+  /* ---------- atualização da tela (sem refazer os campos: o foco não se perde) */
+  const setT = (id, t) => { const e = $('#' + id, root); if (e) e.textContent = t; };
+  function setCls(el, cls) { if (el) el.className = el.className.replace(/\b(ok|warn|bad)\b/g, '').replace(/\s+/g, ' ').trim() + ' ' + cls; }
+  function setSt(el, cls, t) { if (!el) return; setCls(el, cls); el.textContent = t; }
+  function pintar() {
+    if (!root) return;
+    const s = ST, soma = somar(s), d = diferenca(s), v = veredito(d);
+    setT('cx-t-ent', brl(s.ent) + ' · ' + fm(pct(s.ent)) + '%');
+    setT('cx-t-men', s.men.n ? s.men.n + ' × ' + brl(s.men.v) + ' = ' + brl(tot(s.men)) + ' · ' + fm(pct(tot(s.men))) + '% · ' + dur(s.men.n) : 'sem parcelas');
+    ['r1', 'r2'].forEach(g => {
+      const x = s[g], fq = x.f ? FREQ[x.f] : null;
+      setT('cx-t-' + g, x.n ? x.n + ' × ' + brl(x.v) + ' = ' + brl(tot(x)) + ' · ' + fm(pct(tot(x))) + '%' : 'sem reforços');
+      $$('[data-cx-freq="' + g + '"]', root).forEach(b => { const on = b.dataset.v === x.f; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on ? 'true' : 'false'); });
+      setT('cx-fq-' + g, fq ? 'a cada ' + fq.meses + ' meses' : 'A tabela não informa a periodicidade: confirme no contrato.');
+    });
+    setT('cx-t-chv', brl(s.chv) + ' · ' + fm(pct(s.chv)) + '%');
+    $('#cx-lista', root).innerHTML = linhas().map(l => '<div class="cx-li' + (l.usa ? '' : ' off') + '"><span class="a"><b>' + esc(l.nome) + '</b><small>' + (l.usa ? esc(l.det) : 'não usado') + '</small></span>' +
+      '<span class="b"><b>' + (l.usa ? brl(l.total) : '—') + '</b><small>' + (l.usa ? fm(pct(l.total)) + '%' : '') + '</small></span></div>').join('');
+    setT('cx-soma', brl(soma));
+    setT('cx-valor', brl(s.preco));
+    const texto1 = v === 'exato' ? 'Fecha com o valor do imóvel' : v === 'centavos' ? 'Fecha com o valor (diferença de ' + brl(Math.abs(d)) + ')' :
+      v === 'falta' ? 'Falta ' + brl(d) + ' para fechar o valor do imóvel' : 'Passa ' + brl(-d) + ' do valor do imóvel';
+    const cls = v === 'exato' || v === 'centavos' ? 'ok' : v === 'falta' ? 'warn' : 'bad';
+    setSt($('#cx-saldo', root), cls, texto1);
+    const fechado = v === 'exato';
+    $$('[data-cx-act="fix"]', root).forEach(b => { b.disabled = fechado || (b.dataset.k === 'men' && !s.men.n); });
+    const fl = $('#cx-flux', root);
+    if (SEL == null) setSt(fl, 'warn', 'Percentuais da tabela aplicados a outro valor: fora da tabela, confirme com a EJM');
+    else if (igual(s, BASE)) setSt(fl, 'ok', 'Igual ao fluxo da tabela ' + X.nomeTabela());
+    else setSt(fl, 'warn', 'Fluxo ajustado: fora da tabela, confirme com a EJM antes de apresentar');
+    setCls($('#cx-mini', root), cls);
+    setT('cx-mini-t', cls === 'ok' ? (v === 'exato' ? 'Fecha com o valor' : 'Fecha (dif. ' + brl(Math.abs(d)) + ')') : v === 'falta' ? 'Falta ' + brl(d) : 'Passa ' + brl(-d));
+    const mb = $('#cx-mini-b', root); mb.textContent = fechado || v === 'centavos' ? 'Copiar resumo' : 'Saldo nas mensais'; mb.dataset.k = fechado || v === 'centavos' ? 'copy' : 'men';
+  }
+  function atualizar(ficar) {
+    inputs.forEach(el => { if (el !== ficar && el !== document.activeElement) el.value = fmtField(el.dataset.cx); });
+    pintar();
+  }
+
+  /* ---------- entradas */
+  function aoDigitar(el) {
+    const k = el.dataset.cx, f = FIELDS[k];
+    const v = f.kind === 'int' ? parseInt0(el.value) : parseBR(el.value);
+    const ruim = isNaN(v) || v < 0 || (f.max != null && v > f.max) || (f.kind !== 'int' && v > 1e10) || (f.kind === 'pct' && v > 1000);
+    const caixa = el.parentNode;
+    caixa.classList.toggle('bad', ruim);
+    if (ruim) { el.setAttribute('aria-invalid', 'true'); return; }
+    el.removeAttribute('aria-invalid');
+    if (f.kind === 'pct' && /^(men|r1|r2)-p$/.test(k) && v > 0 && !ST[k.slice(0, -2)].n) X.toast('Informe a quantidade primeiro');
+    f.set(f.kind === 'money' ? r2(v) : v);       // dinheiro sempre em centavos, também no que se digita
+    atualizar(el);
+  }
+  function aoSair(el) {                      // arruma o texto do campo e, no valor do imóvel, refaz o fluxo mantendo os percentuais
+    const k = el.dataset.cx;
+    if (k === 'preco') {
+      if (ST.preco > 0 && Math.abs(ST.preco - ST.ref) >= 0.005) ST = escalar(ST, ST.preco, F);
+      else if (!(ST.preco > 0)) { ST.preco = ST.ref; }
+    }
+    el.parentNode.classList.remove('bad'); el.removeAttribute('aria-invalid');
+    el.value = fmtField(k);
+    atualizar(null);
+  }
+  function fechar(k) {
+    const s = ST, outros = k === 'ent' ? tot(s.men) + tot(s.r1) + tot(s.r2) + s.chv : k === 'men' ? s.ent + tot(s.r1) + tot(s.r2) + s.chv : s.ent + tot(s.men) + tot(s.r1) + tot(s.r2);
+    const resto = Math.max(0, r2(s.preco - outros));
+    if (k === 'ent') s.ent = resto;
+    else if (k === 'chv') s.chv = resto;
+    else if (s.men.n) s.men.v = r2(resto / s.men.n);
+    else { X.toast('Informe a quantidade de parcelas'); return; }
+    atualizar(null);
+  }
+  function copiar() { X.copyText(texto(), 'Simulação copiada'); }
+
+  function aoClicar(e) {
+    const t = e.target;
+    const fq = t.closest('[data-cx-freq]');
+    if (fq) { ST[fq.dataset.cxFreq].f = fq.dataset.v; pintar(); return; }
+    const a = t.closest('[data-cx-act]'); if (!a || a.disabled) return;
+    const act = a.dataset.cxAct;
+    if (act === 'copy') copiar();
+    else if (act === 'fix') fechar(a.dataset.k);
+    else if (act === 'mini') { if (a.dataset.k === 'copy') copiar(); else fechar('men'); }
+    else if (act === 'reset') {
+      const u = SEL != null ? unidade(SEL) : null;
+      if (u) carregar(u); else ST = fluxoPadrao(ST.preco > 0 ? ST.preco : 0, F);
+      X.refresh();
+    } else if (act === 'clear') {
+      ST.ent = 0; ST.men.v = 0; ST.r1.v = 0; ST.r2.v = 0; ST.chv = 0;
+      atualizar(null);
+    }
+  }
+  function aoTrocar(e) {
+    const t = e.target;
+    if (t.matches('[data-cx-un]')) {
+      const n = t.value ? +t.value : null, u = n != null ? unidade(n) : null;
+      if (u) carregar(u);
+      else { SEL = null; BASE = null; ST = fluxoPadrao(ST.preco > 0 ? ST.preco : 0, F); }
+      X.refresh();
+      const s = $('#cx-un'); if (s) s.focus();
+      return;
+    }
+    const el = t.closest('[data-cx]'); if (el) aoSair(el);
+  }
+
+  function mount() {
+    root = $('#cx'); if (!root) return;
+    const mn = document.getElementById('main'); if (mn) mn.style.scrollPaddingBottom = '92px';     // o campo focado não fica atrás da barra do celular
+    inputs = $$('[data-cx]', root);
+    root.addEventListener('input', e => { const el = e.target.closest('[data-cx]'); if (el) aoDigitar(el); });
+    root.addEventListener('change', aoTrocar);
+    root.addEventListener('click', aoClicar);
+    root.addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.matches('input')) { e.preventDefault(); e.target.blur(); } });
+    root.addEventListener('focusin', e => {
+      const el = e.target;
+      if (el.matches && el.matches('.cx-in input')) setTimeout(() => { try { el.setSelectionRange(0, el.value.length); } catch (_) { /* sem seleção */ } }, 0);
+    });
+    pintar();
+  }
+  function unmount() { const mn = document.getElementById('main'); if (mn) mn.style.scrollPaddingBottom = ''; root = null; inputs = []; }
+  function pick(n) { const u = unidade(n); if (u) carregar(u); }
+
+  return { render, mount, unmount, pick, texto: () => (ST ? texto() : ''), estado: () => ST };
+}
+
+window.AQ_CALC = criar;
+criar.core = core;
+})();
+
+\u003c/script>
+<script>
 (function () {
 'use strict';
 const AQ = window.AQ;
@@ -974,6 +1396,7 @@ const IC = {
   roteiro: '<svg viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5M9 13h7M9 17h7"/></svg>',
   unidades: '<svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="1.5"/><path d="M9 7h2M13 7h2M9 11h2M13 11h2M9 15h2M13 15h2"/></svg>',
   perguntas: '<svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/><path d="M10 9.2a2 2 0 114 .3c0 1.4-2 1.5-2 2.8M12 14.6h.01"/></svg>',
+  calculadora: '<svg viewBox="0 0 24 24"><rect x="5" y="2.5" width="14" height="19" rx="2"/><rect x="8" y="5.6" width="8" height="3.2" rx=".6"/><path d="M8.5 12.4h.01M12 12.4h.01M15.5 12.4h.01M8.5 15.4h.01M12 15.4h.01M15.5 15.4h.01M8.5 18.4h.01M12 18.4h.01M15.5 18.4h.01"/></svg>',
   pendencias: '<svg viewBox="0 0 24 24"><path d="M5 7l2 2 3-4M5 15l2 2 3-4"/><path d="M13 7h6M13 15h6"/></svg>'
 };
 
@@ -1075,12 +1498,26 @@ function resumo(u) {
   return L.join('\n');
 }
 
+/* ===================================================================== calculadora de fluxo de pagamento (módulo compartilhado calc.js) */
+// estrutura do fluxo da tabela (a mesma da gaveta da unidade); só a periodicidade dos reforços que a tabela informa vem preenchida
+const FLUXO = { entrada: 10, mensal: 35, nMensal: 100, obra: 30, nObra: 11, freqObra: 'sem', pos: 20, nPos: 4, freqPos: null, chaves: 5, chavesNota: 'referência DEZ/31 na tabela; o prazo oficial está no contrato' };
+const CALC = window.AQ_CALC ? window.AQ_CALC({
+  AQ, fluxo: FLUXO, titulo: 'Skyline Living', units, nomeTabela: () => S.tabela.nome, esc, brl, nf2, NB, toast, copyText, fmtDate,
+  detalhe: u => u.andar + 'º andar · ' + (isDup(u) ? 'duplex · ' : '') + 'final ' + pad2(u.final) + ' · ' + planta(u) + ' · ' + u.vagas + (u.vagas === 1 ? ' vaga' : ' vagas'),
+  promo: u => S.promos.find(p => p.u === u.u) || null,
+  refresh: () => refresh()
+}) : null;
+function viewCalculadora() { return CALC ? CALC.render() : '<div class="card"><h2>Calculadora indisponível</h2><p>Esta versão do painel foi aberta sem o módulo da calculadora.</p></div>'; }
+function mountCalculadora() { if (CALC) CALC.mount(); }
+function unmountCalculadora() { if (CALC) CALC.unmount(); }
+
 /* ===================================================================== roteador */
 let cur = null;
 const VIEWS = [
   { id: 'inicio', nome: 'Início', render: viewInicio },
   { id: 'apresentar', nome: 'Apresentar', render: viewApresentar, mount: mountApresentar, unmount: unmountApresentar, flush: true },
   { id: 'roteiro', nome: 'Roteiro', render: viewRoteiro, mount: mountRoteiro, unmount: unmountRoteiro },
+  { id: 'calculadora', nome: 'Calculadora', curto: 'Fluxo', render: viewCalculadora, mount: mountCalculadora, unmount: unmountCalculadora },
   { id: 'unidades', nome: 'Unidades', render: viewUnidades, mount: mountUnidades, unmount: unmountUnidades },
   { id: 'perguntas', nome: 'Perguntas', render: viewPerguntas, mount: mountPerguntas },
   { id: 'pendencias', nome: 'Pendências', render: viewPendencias, mount: mountPendencias }
@@ -1089,7 +1526,7 @@ const go = id => { if (location.hash === '#/' + id) route(); else location.hash 
 
 function renderChrome() {
   const st = stats();
-  $('#nav').innerHTML = VIEWS.map(v => '<button type="button" data-nav="' + v.id + '" class="' + (cur && cur.id === v.id ? 'on' : '') + '">' + IC[v.id] + '<span>' + v.nome + '</span>' +
+  $('#nav').innerHTML = VIEWS.map(v => '<button type="button" data-nav="' + v.id + '" class="' + (cur && cur.id === v.id ? 'on' : '') + '">' + IC[v.id] + '<span>' + v.nome + '</span>' + (v.curto ? '<span class="s">' + v.curto + '</span>' : '') +
     (v.id === 'pendencias' && st.abertas ? '<i class="badge">' + st.abertas + '</i>' : '') + '</button>').join('');
   const dd = idadeDias();
   $('#side-status').innerHTML = 'Tabela ' + esc(S.tabela.nome) + ' · ' + (dd === 0 ? 'de hoje' : 'há ' + dd + (dd === 1 ? ' dia' : ' dias')) + '<br>' + st.n + ' disponíveis · ' + st.promos + ' promoção(ões)' +
@@ -1495,7 +1932,7 @@ function drawerHTML(u) {
     '<tr class="tot"><td><b>Valor de tabela</b></td><td></td><td>' + brl(u.valor) + '</td></tr></table>' +
     '<p class="small-note">' + brl(u.m2) + ' por m². A soma das parcelas pode diferir do valor por centavos de arredondamento. Correção: ' + esc(AQ.meta.correcao) + '</p></div>' +
     (promo ? '<div class="callout"><b>Condição promocional cadastrada:</b> ' + esc(promo.cond) + (promo.validade ? ' · validade ' + fmtDate(promo.validade) : '') + (promo.obs ? '<br>' + esc(promo.obs) : '') + '</div>' : '') +
-    '<div class="dr-act"><button type="button" class="btn primary" data-act="copy-resumo" data-u="' + u.u + '">Copiar resumo</button><button type="button" class="btn" data-act="cmp-add" data-u="' + u.u + '">' + (UI.cmp.includes(u.u) ? 'Tirar da comparação' : 'Comparar') + '</button>' +
+    '<div class="dr-act"><button type="button" class="btn primary" data-act="copy-resumo" data-u="' + u.u + '">Copiar resumo</button><button type="button" class="btn" data-act="calc-unit" data-u="' + u.u + '">Simular fluxo</button><button type="button" class="btn" data-act="cmp-add" data-u="' + u.u + '">' + (UI.cmp.includes(u.u) ? 'Tirar da comparação' : 'Comparar') + '</button>' +
     '<button type="button" class="btn danger" data-act="vendida" data-u="' + u.u + '">Marcar como vendida</button></div>' +
     '<p class="small-note">' + esc(AQ.meta.aviso) + '</p></div>';
 }
@@ -1721,6 +2158,7 @@ document.addEventListener('click', e => {
   else if (act === 'close-modal') { if (a.classList.contains('modal-bg') && t !== a) return; closeModal(); }
   else if (act === 'dados') openDados();
   else if (act === 'csv') { download('skyline-living-tabela-' + S.tabela.nome.replace(/[^A-Za-z0-9]+/g, '-').toLowerCase() + '.csv', tabelaCSV(), 'text/csv;charset=utf-8'); }
+  else if (act === 'calc-unit') { if (CALC) { CALC.pick(un2); closeDrawer(); go('calculadora'); } }
   else if (act === 'copy-resumo') { const u = units().find(x => x.u === un2); if (u) copyText(resumo(u), 'Resumo copiado'); }
   else if (act === 'cmp-add') { toggleCmp(un2); const u = units().find(x => x.u === un2); if (u && $('#drawer').classList.contains('open')) $('#drawer').innerHTML = drawerHTML(u); }
   else if (act === 'cmp-open') openCompare();
@@ -2747,6 +3185,94 @@ html.mouse .pfs-hint{display:none!important}
 html.emb #mbar .mb-n{display:none}
 
 </style>
+<style>
+/* ===== calculadora de fluxo de pagamento ===== */
+.cx{display:grid;gap:14px;max-width:1120px;min-width:0}
+.cx-top{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:12px 16px;align-items:end}
+.cx-fld{display:grid;gap:4px;min-width:0}
+.cx-lab{font-size:13.5px;font-weight:700;color:var(--muted)}
+.cx-fld select{box-sizing:border-box;width:100%;min-width:0;min-height:44px;border:1.5px solid #C3CCD8;border-radius:8px;background:#fff;padding:6px 10px;font-size:16px;color:var(--ink)}
+.cx-in{display:flex;align-items:center;gap:6px;box-sizing:border-box;min-height:44px;border:1.5px solid #C3CCD8;border-radius:8px;background:#fff;padding:0 11px;min-width:0}
+.cx-in i{font-style:normal;font-weight:700;color:var(--muted);flex:none}
+.cx-in input{all:unset;display:block;box-sizing:border-box;flex:1;min-width:0;width:100%;text-align:right;padding:9px 0;font-size:16px;color:var(--ink);font-variant-numeric:tabular-nums;-webkit-user-select:text;user-select:text}
+.cx-in:focus-within,.cx-fld select:focus-visible{outline:2px solid var(--amber);outline-offset:1px;border-color:var(--navy3)}
+.cx-in.bad{border-color:var(--bad);background:#FFF5F4}
+.cx-info{margin:0}
+.cx-top-card{display:grid;gap:10px}
+.cx-top-card .callout{margin:0}
+.cx-flux{display:flex;flex-wrap:wrap;gap:8px}
+.cx-act{margin-top:2px;align-items:stretch}
+.cx-act .btn{display:inline-flex;align-items:center;justify-content:center;text-align:center}
+.cx-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:14px;align-items:start;min-width:0}
+.cx-blocks{display:grid;gap:12px;min-width:0}
+.cx-b{display:grid;gap:10px;padding:14px 16px}
+.cx-bh{display:flex;align-items:baseline;justify-content:space-between;gap:4px 12px;flex-wrap:wrap}
+.cx-b .cx-bh h3{margin:0}
+.cx-bt{font-size:14px;color:var(--navy3);font-weight:700;font-variant-numeric:tabular-nums}
+.cx-bn{margin:-4px 0 0;font-size:13.5px;color:var(--muted)}
+.cx-f{display:grid;grid-template-columns:minmax(0,.75fr) minmax(0,1.5fr) minmax(0,1fr);gap:10px}
+.cx-f.two{grid-template-columns:minmax(0,1.5fr) minmax(0,1fr)}
+.cx-freq{display:flex;align-items:center;gap:6px 12px;flex-wrap:wrap}
+.cx-freq .seg button{min-height:40px;display:inline-flex;align-items:center;padding:0 14px;box-sizing:border-box}
+.cx-fq{color:var(--muted);font-size:13.5px}
+.cx-sum{display:grid;gap:10px;align-content:start;min-width:0}
+.cx-sum h2{margin:0}
+.cx-li{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:7px 0;border-top:1px solid var(--line)}
+#cx-lista .cx-li:first-child{border-top:0}
+.cx-li .a{min-width:0}
+.cx-li .a b,.cx-li .b b{display:block;color:var(--navy)}
+.cx-li small{display:block;color:var(--muted);font-size:13.5px;line-height:1.3}
+.cx-li .b{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.cx-li.off{opacity:.5}
+.cx-totais{border-top:2px solid var(--navy);padding-top:2px}
+.cx-totais .cx-li{border-top:0;padding:4px 0;align-items:baseline}
+.cx-totais .cx-li .b{color:var(--navy);font-weight:700}
+.cx-st{display:block;box-sizing:border-box;border-radius:9px;padding:8px 11px;font-weight:700;font-size:14.5px;line-height:1.3}
+.cx-flux .cx-st{display:inline-block}
+.cx-st.ok{background:#E3F0E8;color:var(--ok)}
+.cx-st.warn{background:#FCEBD5;color:var(--warn)}
+.cx-st.bad{background:#FBE4E1;color:var(--bad)}
+.cx-fix{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.cx-fix .btn,.cx-act .btn,.cx-sum .actions .btn{min-height:40px}
+.cx-mini{display:none}
+@media (min-width:1000px){
+  .cx-grid{grid-template-columns:minmax(0,1.5fr) minmax(310px,1fr)}
+  .cx-sum{position:sticky;top:0}
+}
+@media (max-width:999px){
+  .cx-mini{display:flex;position:sticky;bottom:0;z-index:6;align-items:center;justify-content:space-between;gap:10px;box-sizing:border-box;padding:8px 10px 8px 14px;border-radius:12px;border:1.5px solid var(--navy);background:#fff;box-shadow:0 -6px 18px rgba(15,39,68,.16);font-weight:700;font-size:15px}
+  .cx-mini.ok{border-color:var(--ok);color:var(--ok)}
+  .cx-mini.warn{border-color:var(--warn);color:var(--warn)}
+  .cx-mini.bad{border-color:var(--bad);color:var(--bad)}
+  .cx-mini .btn{flex:none;min-height:42px}
+}
+@media (max-width:700px){
+  .cx-top{grid-template-columns:minmax(0,1fr)}
+  .cx-f{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .cx-f .q{order:1}
+  .cx-f .p{order:2}
+  .cx-f .v{order:3;grid-column:1/-1}
+  .cx-f.two{grid-template-columns:minmax(0,1.4fr) minmax(0,1fr)}
+}
+/* celular deitado (menu em trilho): com 7 itens, botões um pouco mais baixos para caber sem rolar */
+@media (max-height:520px) and (orientation:landscape){
+  .nav{gap:1px}
+  .nav button{min-height:38px;padding:5px 0}
+  .cx-mini{padding:4px 8px 4px 12px;font-size:14px}
+  .cx-mini .btn{min-height:36px}
+}
+@media (max-height:400px) and (orientation:landscape){
+  .brand{display:none}
+}
+/* menu com 7 itens no celular em pé: a aba nova mostra o nome curto */
+.nav button .s{display:none}
+@media (max-width:700px) and (min-height:521px), (max-width:700px) and (orientation:portrait) and (min-height:361px){
+  .nav{grid-template-columns:repeat(7,minmax(0,1fr))}
+  .nav button[data-nav=calculadora] span:not(.s){display:none}
+  .nav button[data-nav=calculadora] .s{display:block}
+}
+
+</style>
 </head>
 <body>
 <div id="app">
@@ -2823,6 +3349,340 @@ window.AQ = {"meta":{"nome":"Aquarella UP","construtora":"EJM","local":"Balneár
 })();
 \u003c/script>
 <script>
+/* Calculadora de fluxo de pagamento (módulo único, usado pelos painéis Skyline Living e Aquarella UP).
+   Entrada, parcelas mensais, reforços (semestrais ou anuais, em dois grupos) e chaves, sobre o valor de uma unidade da tabela
+   ou de outro valor. Só valores nominais: não calcula correção nem juros e não projeta valorização, retorno ou locação. */
+(function () {
+'use strict';
+
+/* ===================================================================== contas (sem tela) */
+const r2 = v => (v < 0 ? -1 : 1) * Math.round(Math.abs(v) * 100 + 1e-6) / 100;
+const FREQ = { sem: { meses: 6, plural: 'semestrais', nome: 'Semestrais' }, anu: { meses: 12, plural: 'anuais', nome: 'Anuais' } };
+
+function parseBR(s) {                      // "1.234,56", "1234,5", "1234.56", "R$ 10.000" → número; vazio → 0; inválido → NaN
+  s = String(s == null ? '' : s).replace(/R\$|%|\s| /g, '');
+  if (s === '') return 0;
+  if (!/^[0-9.,]+$/.test(s)) return NaN;
+  if (s.indexOf(',') >= 0) {
+    if ((s.match(/,/g) || []).length > 1) return NaN;
+    s = s.replace(/\./g, '').replace(',', '.');
+  } else if (/^\d{1,3}(\.\d{3})+$/.test(s)) s = s.replace(/\./g, '');          // 1.234.567 = milhar
+  else if ((s.match(/\./g) || []).length > 1) return NaN;
+  const v = parseFloat(s);
+  return isFinite(v) ? v : NaN;
+}
+function parseInt0(s) {                    // só dígitos; vazio → 0
+  s = String(s == null ? '' : s).replace(/\s| /g, '');
+  if (s === '') return 0;
+  return /^\d{1,4}$/.test(s) ? parseInt(s, 10) : NaN;
+}
+const tot = g => r2(g.n * g.v);
+const somar = st => r2(st.ent + tot(st.men) + tot(st.r1) + tot(st.r2) + st.chv);
+const diferenca = st => r2(st.preco - somar(st));
+function veredito(d) {                      // a própria tabela da EJM fecha com até R$ 3,00 de arredondamento
+  const a = Math.abs(d);
+  if (a < 0.005) return 'exato';
+  if (a <= 3) return 'centavos';
+  return d > 0 ? 'falta' : 'passa';
+}
+function dur(m) {
+  const a = Math.floor(m / 12), r = m % 12, p = [];
+  if (a) p.push(a + (a === 1 ? ' ano' : ' anos'));
+  if (r) p.push(r + (r === 1 ? ' mês' : ' meses'));
+  return p.join(' e ') || '0 mês';
+}
+function fluxoDaUnidade(u, F) {
+  return { preco: u.valor, ref: u.valor, ent: u.entrada, men: { n: F.nMensal, v: u.mensal },
+    r1: { n: F.nObra, v: u.refObra, f: F.freqObra || null }, r2: { n: F.nPos, v: u.refPos, f: F.freqPos || null }, chv: u.chaves };
+}
+function fluxoPadrao(preco, F) {            // percentuais e quantidades da tabela aplicados a outro valor
+  const p = x => r2(preco * x / 100), cada = (x, n) => (n ? r2(preco * x / 100 / n) : 0);
+  return { preco, ref: preco, ent: p(F.entrada), men: { n: F.nMensal, v: cada(F.mensal, F.nMensal) },
+    r1: { n: F.nObra, v: cada(F.obra, F.nObra), f: F.freqObra || null }, r2: { n: F.nPos, v: cada(F.pos, F.nPos), f: F.freqPos || null }, chv: p(F.chaves) };
+}
+function escalar(st, novo, F) {             // muda o valor do imóvel mantendo os percentuais do fluxo
+  if (!(novo > 0)) return st;
+  if (!(st.ref > 0) || somar(st) <= 0) return fluxoPadrao(novo, F);
+  const k = novo / st.ref, s = x => r2(x * k);
+  return { preco: novo, ref: novo, ent: s(st.ent), men: { n: st.men.n, v: s(st.men.v) },
+    r1: { n: st.r1.n, v: s(st.r1.v), f: st.r1.f }, r2: { n: st.r2.n, v: s(st.r2.v), f: st.r2.f }, chv: s(st.chv) };
+}
+function igual(a, b) {                      // fluxo igual ao da tabela (centavos de folga; a periodicidade só conta se a tabela a informa)
+  const m = (x, y) => Math.abs(x - y) < 0.005;
+  const g = (x, y) => x.n === y.n && m(x.v, y.v) && (!y.f || x.f === y.f);
+  return !!b && m(a.preco, b.preco) && m(a.ent, b.ent) && g(a.men, b.men) && g(a.r1, b.r1) && g(a.r2, b.r2) && m(a.chv, b.chv);
+}
+const core = { r2, parseBR, parseInt0, tot, somar, diferenca, veredito, dur, fluxoDaUnidade, fluxoPadrao, escalar, igual, FREQ };
+
+/* ===================================================================== tela */
+function criar(X) {
+  const F = X.fluxo, AQ = X.AQ, esc = X.esc, brl = X.brl, nf2 = X.nf2, NB = X.NB;
+  const $ = (s, el) => (el || document).querySelector(s);
+  const $$ = (s, el) => Array.prototype.slice.call((el || document).querySelectorAll(s));
+  const fm = v => nf2.format(v);
+  const m2 = v => nf2.format(v) + NB + 'm²';
+
+  let ST = null, BASE = null, SEL = null, root = null, inputs = [];
+
+  const lista = () => X.units().slice().sort((a, b) => a.u - b.u);
+  const unidade = n => lista().find(u => u.u === n) || null;
+  function padrao() {
+    const L = lista(), ok = L.filter(u => !u.flag), base = ok.length ? ok : L;
+    return base.reduce((b, u) => (!b || u.valor < b.valor ? u : b), null);
+  }
+  function carregar(u) { SEL = u.u; ST = fluxoDaUnidade(u, F); BASE = JSON.parse(JSON.stringify(ST)); }
+  function garantir() {
+    if (SEL != null && !unidade(SEL)) { SEL = null; ST = null; }          // a unidade saiu da tabela (vendida)
+    if (ST) return;
+    const u = padrao();
+    if (u) carregar(u); else { SEL = null; BASE = null; ST = fluxoPadrao(0, F); }
+  }
+  const pct = v => (ST.preco > 0 ? v / ST.preco * 100 : 0);
+
+  const FIELDS = {
+    preco: { kind: 'money', get: () => ST.preco, set: v => { ST.preco = v; } },
+    'ent-v': { kind: 'money', get: () => ST.ent, set: v => { ST.ent = v; } },
+    'ent-p': { kind: 'pct', get: () => pct(ST.ent), set: p => { ST.ent = r2(ST.preco * p / 100); } },
+    'men-n': { kind: 'int', max: 600, get: () => ST.men.n, set: n => { ST.men.n = n; } },
+    'men-v': { kind: 'money', get: () => ST.men.v, set: v => { ST.men.v = v; } },
+    'men-p': { kind: 'pct', get: () => pct(tot(ST.men)), set: p => { ST.men.v = ST.men.n ? r2(ST.preco * p / 100 / ST.men.n) : 0; } },
+    'r1-n': { kind: 'int', max: 120, get: () => ST.r1.n, set: n => { ST.r1.n = n; } },
+    'r1-v': { kind: 'money', get: () => ST.r1.v, set: v => { ST.r1.v = v; } },
+    'r1-p': { kind: 'pct', get: () => pct(tot(ST.r1)), set: p => { ST.r1.v = ST.r1.n ? r2(ST.preco * p / 100 / ST.r1.n) : 0; } },
+    'r2-n': { kind: 'int', max: 120, get: () => ST.r2.n, set: n => { ST.r2.n = n; } },
+    'r2-v': { kind: 'money', get: () => ST.r2.v, set: v => { ST.r2.v = v; } },
+    'r2-p': { kind: 'pct', get: () => pct(tot(ST.r2)), set: p => { ST.r2.v = ST.r2.n ? r2(ST.preco * p / 100 / ST.r2.n) : 0; } },
+    'chv-v': { kind: 'money', get: () => ST.chv, set: v => { ST.chv = v; } },
+    'chv-p': { kind: 'pct', get: () => pct(ST.chv), set: p => { ST.chv = r2(ST.preco * p / 100); } }
+  };
+  const fmtField = k => { const f = FIELDS[k], v = f.get(); return f.kind === 'int' ? String(v) : fm(v); };
+
+  /* ---------- HTML */
+  function campo(k, rotulo, extra) {
+    const f = FIELDS[k];
+    const pre = f.kind === 'money' ? '<i>R$</i>' : '', pos = f.kind === 'pct' ? '<i>%</i>' : '';
+    return '<label class="cx-fld ' + (extra || '') + '"><span class="cx-lab">' + rotulo + '</span><span class="cx-in">' + pre +
+      '<input type="text" data-cx="' + k + '" id="cx-' + k + '" inputmode="' + (f.kind === 'int' ? 'numeric' : 'decimal') + '" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="done" value="' + fmtField(k) + '">' + pos + '</span></label>';
+  }
+  function freqRow(g, nome) {
+    return '<div class="cx-freq"><span class="cx-lab">Periodicidade</span><div class="seg" role="group" aria-label="Periodicidade dos reforços de ' + nome + '">' +
+      Object.keys(FREQ).map(k => '<button type="button" data-cx-freq="' + g + '" data-v="' + k + '">' + FREQ[k].nome + '</button>').join('') +
+      '</div><small class="cx-fq" id="cx-fq-' + g + '"></small></div>';
+  }
+  function bloco(id, titulo, nota, corpo) {
+    return '<section class="card cx-b" data-b="' + id + '"><div class="cx-bh"><h3>' + titulo + '</h3><span class="cx-bt" id="cx-t-' + id + '"></span></div>' +
+      (nota ? '<p class="cx-bn">' + nota + '</p>' : '') + corpo + '</section>';
+  }
+  function avisos(u) {
+    if (!u) return '';
+    let h = '';
+    if (u.flag) h += '<div class="callout warn"><b>Dado a confirmar com a EJM:</b> ' + esc(u.flag) + '</div>';
+    const p = X.promo ? X.promo(u) : null;
+    if (p) h += '<div class="callout"><b>Condição promocional cadastrada:</b> ' + esc(p.cond) + (p.validade ? ' · validade ' + esc(X.fmtDate(p.validade)) : '') +
+      '<br>A calculadora parte do fluxo da tabela; a condição promocional não entra na conta.</div>';
+    return h;
+  }
+  function render() {
+    garantir();
+    const u = SEL != null ? unidade(SEL) : null;
+    const opts = '<option value="">Outro valor (sem unidade)</option>' + lista().map(x => '<option value="' + x.u + '"' + (x.u === SEL ? ' selected' : '') + '>Unidade ' + x.u +
+      ' · ' + m2(x.area) + ' · ' + brl(x.valor) + (x.flag ? ' · dado a confirmar' : '') + '</option>').join('');
+    const info = u ? esc(X.detalhe(u)) + ' · ' + brl(u.m2) + ' por m²'
+      : 'Digite o valor do imóvel: o fluxo sai com os percentuais da tabela (' + F.entrada + '% de entrada, ' + F.nMensal + ' mensais, reforços e chaves).';
+    const top = '<section class="card cx-top-card"><div class="cx-top">' +
+      '<label class="cx-fld"><span class="cx-lab">Imóvel</span><select id="cx-un" data-cx-un>' + opts + '</select></label>' +
+      '<label class="cx-fld"><span class="cx-lab">Valor do imóvel</span><span class="cx-in"><i>R$</i><input type="text" data-cx="preco" id="cx-preco" inputmode="decimal" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="done" value="' + fmtField('preco') + '"></span></label>' +
+      '</div><p class="small-note cx-info" id="cx-info">' + info + '</p>' + avisos(u) +
+      '<div class="cx-flux"><span class="cx-st ok" id="cx-flux"></span></div>' +
+      '<div class="actions cx-act"><button type="button" class="btn sm" data-cx-act="reset">' + (u ? 'Voltar ao fluxo da tabela' : 'Aplicar os percentuais da tabela') + '</button>' +
+      '<button type="button" class="btn sm" data-cx-act="clear">Limpar valores</button></div></section>';
+    const blocos =
+      bloco('ent', 'Entrada', '', '<div class="cx-f two">' + campo('ent-v', 'Valor') + campo('ent-p', '% do imóvel') + '</div>') +
+      bloco('men', 'Parcelas mensais', '', '<div class="cx-f">' + campo('men-n', 'Quantidade', 'q') + campo('men-v', 'Valor de cada parcela', 'v') + campo('men-p', '% do imóvel', 'p') + '</div>') +
+      bloco('r1', 'Reforços de obra', '', freqRow('r1', 'obra') + '<div class="cx-f">' + campo('r1-n', 'Quantidade', 'q') + campo('r1-v', 'Valor de cada reforço', 'v') + campo('r1-p', '% do imóvel', 'p') + '</div>') +
+      bloco('r2', 'Reforços pós-obra', '', freqRow('r2', 'pós-obra') + '<div class="cx-f">' + campo('r2-n', 'Quantidade', 'q') + campo('r2-v', 'Valor de cada reforço', 'v') + campo('r2-p', '% do imóvel', 'p') + '</div>') +
+      bloco('chv', 'Chaves', F.chavesNota ? esc(F.chavesNota.charAt(0).toUpperCase() + F.chavesNota.slice(1)) + '.' : '', '<div class="cx-f two">' + campo('chv-v', 'Valor') + campo('chv-p', '% do imóvel') + '</div>');
+    const resumo = '<aside class="card cx-sum" id="cx-sum"><h2>Resumo do fluxo</h2><div id="cx-lista"></div>' +
+      '<div class="cx-totais"><div class="cx-li"><span class="a"><b>Soma do fluxo</b></span><span class="b" id="cx-soma"></span></div>' +
+      '<div class="cx-li"><span class="a"><b>Valor do imóvel</b></span><span class="b" id="cx-valor"></span></div></div>' +
+      '<div class="cx-st ok" id="cx-saldo" role="status"></div>' +
+      '<div class="cx-fix" id="cx-fix"><span class="cx-lab">Fechar o saldo:</span><button type="button" class="btn sm" data-cx-act="fix" data-k="ent">na entrada</button>' +
+      '<button type="button" class="btn sm" data-cx-act="fix" data-k="men">nas mensais</button><button type="button" class="btn sm" data-cx-act="fix" data-k="chv">nas chaves</button></div>' +
+      '<div class="actions"><button type="button" class="btn primary" data-cx-act="copy">Copiar resumo</button></div>' +
+      '<p class="small-note">Valores nominais da tabela ' + esc(X.nomeTabela()) + ', sem correção. Correção: ' + esc(AQ.meta.correcao) + '. ' + esc(AQ.meta.aviso) + '</p></aside>';
+    const mini = '<div class="cx-mini" id="cx-mini" role="status"><span id="cx-mini-t"></span><button type="button" class="btn sm primary" id="cx-mini-b" data-cx-act="mini"></button></div>';
+    return '<header class="page-h"><div><div class="eyebrow">' + esc(X.titulo) + ' · Simulação com o cliente</div><h1>Calculadora de fluxo de pagamento</h1>' +
+      '<p class="sub">Entrada, parcelas mensais, reforços semestrais ou anuais e chaves. Valores nominais da tabela ' + esc(X.nomeTabela()) + '.</p></div></header>' +
+      '<div class="cx" id="cx">' + top + '<div class="cx-grid"><div class="cx-blocks">' + blocos + '</div>' + resumo + '</div>' + mini + '</div>';
+  }
+
+  /* ---------- texto da simulação */
+  const nomeG = { r1: 'Reforços de obra', r2: 'Reforços pós-obra' };
+  function linhas() {
+    const s = ST, L = [];
+    L.push({ k: 'ent', nome: 'Entrada', det: '1 × ' + brl(s.ent), total: s.ent, usa: s.ent > 0 });
+    L.push({ k: 'men', nome: 'Parcelas mensais', det: s.men.n + ' × ' + brl(s.men.v), total: tot(s.men), usa: s.men.n > 0 && s.men.v > 0 });
+    ['r1', 'r2'].forEach(g => {
+      const x = s[g], fq = x.f ? FREQ[x.f] : null;
+      L.push({ k: g, nome: nomeG[g] + (fq ? ' · ' + fq.plural : ' · periodicidade a confirmar'), det: x.n + ' × ' + brl(x.v) + (fq ? ' (a cada ' + fq.meses + ' meses)' : ''), total: tot(x), usa: x.n > 0 && x.v > 0 });
+    });
+    L.push({ k: 'chv', nome: 'Chaves', det: '1 × ' + brl(s.chv), total: s.chv, usa: s.chv > 0 });
+    return L;
+  }
+  function texto() {
+    const s = ST, u = SEL != null ? unidade(SEL) : null, d = diferenca(s), v = veredito(d), P = x => fm(pct(x)) + '%';
+    const T = [];
+    T.push(X.titulo + ' · Simulação de fluxo de pagamento');
+    if (u) T.push('Unidade ' + u.u + ' (' + X.detalhe(u) + ')');
+    T.push(u && Math.abs(s.preco - u.valor) < 0.005 ? 'Valor de tabela (' + X.nomeTabela() + '): ' + brl(s.preco) : (u ? 'Valor informado: ' + brl(s.preco) + ' (valor de tabela: ' + brl(u.valor) + ')' : 'Valor informado: ' + brl(s.preco)));
+    const lh = linhas();
+    lh.filter(l => l.usa).forEach(l => {
+      if (l.k === 'ent') T.push('• Entrada: ' + brl(s.ent) + ' (' + P(s.ent) + ')');
+      else if (l.k === 'chv') T.push('• Chaves: ' + brl(s.chv) + ' (' + P(s.chv) + ')' + (F.chavesNota ? ' · ' + F.chavesNota : ''));
+      else if (l.k === 'men') T.push('• ' + s.men.n + (s.men.n === 1 ? ' parcela mensal' : ' parcelas mensais') + ' de ' + brl(s.men.v) + ' = ' + brl(l.total) + ' (' + P(l.total) + ')');
+      else { const x = s[l.k], fq = x.f ? FREQ[x.f] : null; T.push('• ' + x.n + (x.n === 1 ? ' reforço ' : ' reforços ') + (l.k === 'r1' ? 'de obra' : 'pós-obra') + (fq ? ' ' + (x.n === 1 ? fq.plural.replace(/ais$/, 'al') : fq.plural) : ' (periodicidade a confirmar)') + ' de ' + brl(x.v) + ' = ' + brl(l.total) + ' (' + P(l.total) + ')'); }
+    });
+    T.push('Soma do fluxo: ' + brl(somar(s)));
+    if (v === 'centavos') T.push('Diferença de ' + brl(Math.abs(d)) + ' entre a soma do fluxo e o valor do imóvel.');
+    else if (v === 'falta') T.push('ATENÇÃO: o fluxo não fecha com o valor do imóvel: faltam ' + brl(d) + '.');
+    else if (v === 'passa') T.push('ATENÇÃO: o fluxo passa ' + brl(-d) + ' do valor do imóvel.');
+    if (SEL == null) T.push('Fluxo montado com os percentuais da tabela sobre outro valor: confirmar com a EJM.');
+    else if (!igual(s, BASE)) T.push('Fluxo ajustado: não é o fluxo da tabela; confirmar com a EJM antes de apresentar.');
+    T.push('Valores nominais, sem correção. Correção: ' + AQ.meta.correcao);
+    T.push(AQ.meta.aviso);
+    return T.join('\n');
+  }
+
+  /* ---------- atualização da tela (sem refazer os campos: o foco não se perde) */
+  const setT = (id, t) => { const e = $('#' + id, root); if (e) e.textContent = t; };
+  function setCls(el, cls) { if (el) el.className = el.className.replace(/\b(ok|warn|bad)\b/g, '').replace(/\s+/g, ' ').trim() + ' ' + cls; }
+  function setSt(el, cls, t) { if (!el) return; setCls(el, cls); el.textContent = t; }
+  function pintar() {
+    if (!root) return;
+    const s = ST, soma = somar(s), d = diferenca(s), v = veredito(d);
+    setT('cx-t-ent', brl(s.ent) + ' · ' + fm(pct(s.ent)) + '%');
+    setT('cx-t-men', s.men.n ? s.men.n + ' × ' + brl(s.men.v) + ' = ' + brl(tot(s.men)) + ' · ' + fm(pct(tot(s.men))) + '% · ' + dur(s.men.n) : 'sem parcelas');
+    ['r1', 'r2'].forEach(g => {
+      const x = s[g], fq = x.f ? FREQ[x.f] : null;
+      setT('cx-t-' + g, x.n ? x.n + ' × ' + brl(x.v) + ' = ' + brl(tot(x)) + ' · ' + fm(pct(tot(x))) + '%' : 'sem reforços');
+      $$('[data-cx-freq="' + g + '"]', root).forEach(b => { const on = b.dataset.v === x.f; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on ? 'true' : 'false'); });
+      setT('cx-fq-' + g, fq ? 'a cada ' + fq.meses + ' meses' : 'A tabela não informa a periodicidade: confirme no contrato.');
+    });
+    setT('cx-t-chv', brl(s.chv) + ' · ' + fm(pct(s.chv)) + '%');
+    $('#cx-lista', root).innerHTML = linhas().map(l => '<div class="cx-li' + (l.usa ? '' : ' off') + '"><span class="a"><b>' + esc(l.nome) + '</b><small>' + (l.usa ? esc(l.det) : 'não usado') + '</small></span>' +
+      '<span class="b"><b>' + (l.usa ? brl(l.total) : '—') + '</b><small>' + (l.usa ? fm(pct(l.total)) + '%' : '') + '</small></span></div>').join('');
+    setT('cx-soma', brl(soma));
+    setT('cx-valor', brl(s.preco));
+    const texto1 = v === 'exato' ? 'Fecha com o valor do imóvel' : v === 'centavos' ? 'Fecha com o valor (diferença de ' + brl(Math.abs(d)) + ')' :
+      v === 'falta' ? 'Falta ' + brl(d) + ' para fechar o valor do imóvel' : 'Passa ' + brl(-d) + ' do valor do imóvel';
+    const cls = v === 'exato' || v === 'centavos' ? 'ok' : v === 'falta' ? 'warn' : 'bad';
+    setSt($('#cx-saldo', root), cls, texto1);
+    const fechado = v === 'exato';
+    $$('[data-cx-act="fix"]', root).forEach(b => { b.disabled = fechado || (b.dataset.k === 'men' && !s.men.n); });
+    const fl = $('#cx-flux', root);
+    if (SEL == null) setSt(fl, 'warn', 'Percentuais da tabela aplicados a outro valor: fora da tabela, confirme com a EJM');
+    else if (igual(s, BASE)) setSt(fl, 'ok', 'Igual ao fluxo da tabela ' + X.nomeTabela());
+    else setSt(fl, 'warn', 'Fluxo ajustado: fora da tabela, confirme com a EJM antes de apresentar');
+    setCls($('#cx-mini', root), cls);
+    setT('cx-mini-t', cls === 'ok' ? (v === 'exato' ? 'Fecha com o valor' : 'Fecha (dif. ' + brl(Math.abs(d)) + ')') : v === 'falta' ? 'Falta ' + brl(d) : 'Passa ' + brl(-d));
+    const mb = $('#cx-mini-b', root); mb.textContent = fechado || v === 'centavos' ? 'Copiar resumo' : 'Saldo nas mensais'; mb.dataset.k = fechado || v === 'centavos' ? 'copy' : 'men';
+  }
+  function atualizar(ficar) {
+    inputs.forEach(el => { if (el !== ficar && el !== document.activeElement) el.value = fmtField(el.dataset.cx); });
+    pintar();
+  }
+
+  /* ---------- entradas */
+  function aoDigitar(el) {
+    const k = el.dataset.cx, f = FIELDS[k];
+    const v = f.kind === 'int' ? parseInt0(el.value) : parseBR(el.value);
+    const ruim = isNaN(v) || v < 0 || (f.max != null && v > f.max) || (f.kind !== 'int' && v > 1e10) || (f.kind === 'pct' && v > 1000);
+    const caixa = el.parentNode;
+    caixa.classList.toggle('bad', ruim);
+    if (ruim) { el.setAttribute('aria-invalid', 'true'); return; }
+    el.removeAttribute('aria-invalid');
+    if (f.kind === 'pct' && /^(men|r1|r2)-p$/.test(k) && v > 0 && !ST[k.slice(0, -2)].n) X.toast('Informe a quantidade primeiro');
+    f.set(f.kind === 'money' ? r2(v) : v);       // dinheiro sempre em centavos, também no que se digita
+    atualizar(el);
+  }
+  function aoSair(el) {                      // arruma o texto do campo e, no valor do imóvel, refaz o fluxo mantendo os percentuais
+    const k = el.dataset.cx;
+    if (k === 'preco') {
+      if (ST.preco > 0 && Math.abs(ST.preco - ST.ref) >= 0.005) ST = escalar(ST, ST.preco, F);
+      else if (!(ST.preco > 0)) { ST.preco = ST.ref; }
+    }
+    el.parentNode.classList.remove('bad'); el.removeAttribute('aria-invalid');
+    el.value = fmtField(k);
+    atualizar(null);
+  }
+  function fechar(k) {
+    const s = ST, outros = k === 'ent' ? tot(s.men) + tot(s.r1) + tot(s.r2) + s.chv : k === 'men' ? s.ent + tot(s.r1) + tot(s.r2) + s.chv : s.ent + tot(s.men) + tot(s.r1) + tot(s.r2);
+    const resto = Math.max(0, r2(s.preco - outros));
+    if (k === 'ent') s.ent = resto;
+    else if (k === 'chv') s.chv = resto;
+    else if (s.men.n) s.men.v = r2(resto / s.men.n);
+    else { X.toast('Informe a quantidade de parcelas'); return; }
+    atualizar(null);
+  }
+  function copiar() { X.copyText(texto(), 'Simulação copiada'); }
+
+  function aoClicar(e) {
+    const t = e.target;
+    const fq = t.closest('[data-cx-freq]');
+    if (fq) { ST[fq.dataset.cxFreq].f = fq.dataset.v; pintar(); return; }
+    const a = t.closest('[data-cx-act]'); if (!a || a.disabled) return;
+    const act = a.dataset.cxAct;
+    if (act === 'copy') copiar();
+    else if (act === 'fix') fechar(a.dataset.k);
+    else if (act === 'mini') { if (a.dataset.k === 'copy') copiar(); else fechar('men'); }
+    else if (act === 'reset') {
+      const u = SEL != null ? unidade(SEL) : null;
+      if (u) carregar(u); else ST = fluxoPadrao(ST.preco > 0 ? ST.preco : 0, F);
+      X.refresh();
+    } else if (act === 'clear') {
+      ST.ent = 0; ST.men.v = 0; ST.r1.v = 0; ST.r2.v = 0; ST.chv = 0;
+      atualizar(null);
+    }
+  }
+  function aoTrocar(e) {
+    const t = e.target;
+    if (t.matches('[data-cx-un]')) {
+      const n = t.value ? +t.value : null, u = n != null ? unidade(n) : null;
+      if (u) carregar(u);
+      else { SEL = null; BASE = null; ST = fluxoPadrao(ST.preco > 0 ? ST.preco : 0, F); }
+      X.refresh();
+      const s = $('#cx-un'); if (s) s.focus();
+      return;
+    }
+    const el = t.closest('[data-cx]'); if (el) aoSair(el);
+  }
+
+  function mount() {
+    root = $('#cx'); if (!root) return;
+    const mn = document.getElementById('main'); if (mn) mn.style.scrollPaddingBottom = '92px';     // o campo focado não fica atrás da barra do celular
+    inputs = $$('[data-cx]', root);
+    root.addEventListener('input', e => { const el = e.target.closest('[data-cx]'); if (el) aoDigitar(el); });
+    root.addEventListener('change', aoTrocar);
+    root.addEventListener('click', aoClicar);
+    root.addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.matches('input')) { e.preventDefault(); e.target.blur(); } });
+    root.addEventListener('focusin', e => {
+      const el = e.target;
+      if (el.matches && el.matches('.cx-in input')) setTimeout(() => { try { el.setSelectionRange(0, el.value.length); } catch (_) { /* sem seleção */ } }, 0);
+    });
+    pintar();
+  }
+  function unmount() { const mn = document.getElementById('main'); if (mn) mn.style.scrollPaddingBottom = ''; root = null; inputs = []; }
+  function pick(n) { const u = unidade(n); if (u) carregar(u); }
+
+  return { render, mount, unmount, pick, texto: () => (ST ? texto() : ''), estado: () => ST };
+}
+
+window.AQ_CALC = criar;
+criar.core = core;
+})();
+
+\u003c/script>
+<script>
 (function () {
 'use strict';
 const AQ = window.AQ;
@@ -2888,6 +3748,7 @@ const IC = {
   roteiro: '<svg viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5M9 13h7M9 17h7"/></svg>',
   unidades: '<svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="1.5"/><path d="M9 7h2M13 7h2M9 11h2M13 11h2M9 15h2M13 15h2"/></svg>',
   perguntas: '<svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/><path d="M10 9.2a2 2 0 114 .3c0 1.4-2 1.5-2 2.8M12 14.6h.01"/></svg>',
+  calculadora: '<svg viewBox="0 0 24 24"><rect x="5" y="2.5" width="14" height="19" rx="2"/><rect x="8" y="5.6" width="8" height="3.2" rx=".6"/><path d="M8.5 12.4h.01M12 12.4h.01M15.5 12.4h.01M8.5 15.4h.01M12 15.4h.01M15.5 15.4h.01M8.5 18.4h.01M12 18.4h.01M15.5 18.4h.01"/></svg>',
   pendencias: '<svg viewBox="0 0 24 24"><path d="M5 7l2 2 3-4M5 15l2 2 3-4"/><path d="M13 7h6M13 15h6"/></svg>'
 };
 
@@ -2986,12 +3847,26 @@ function resumo(u) {
   return L.join('\n');
 }
 
+/* ===================================================================== calculadora de fluxo de pagamento (módulo compartilhado calc.js) */
+// estrutura do fluxo da tabela (a mesma da gaveta da unidade); só a periodicidade dos reforços que a tabela informa vem preenchida
+const FLUXO = { entrada: 10, mensal: 20, nMensal: 100, obra: 40, nObra: 7, freqObra: null, pos: 20, nPos: 9, freqPos: null, chaves: 10, chavesNota: '' };
+const CALC = window.AQ_CALC ? window.AQ_CALC({
+  AQ, fluxo: FLUXO, titulo: 'Aquarella UP', units, nomeTabela: () => S.tabela.nome, esc, brl, nf2, NB, toast, copyText, fmtDate,
+  detalhe: u => u.andar + 'º andar · ' + (isCob(u) ? 'cobertura' : 'final ' + pad2(u.final)) + ' · ' + planta(u) + ' · ' + u.vagas + (u.vagas === 1 ? ' vaga' : ' vagas'),
+  promo: u => S.promos.find(p => p.u === u.u) || null,
+  refresh: () => refresh()
+}) : null;
+function viewCalculadora() { return CALC ? CALC.render() : '<div class="card"><h2>Calculadora indisponível</h2><p>Esta versão do painel foi aberta sem o módulo da calculadora.</p></div>'; }
+function mountCalculadora() { if (CALC) CALC.mount(); }
+function unmountCalculadora() { if (CALC) CALC.unmount(); }
+
 /* ===================================================================== roteador */
 let cur = null;
 const VIEWS = [
   { id: 'inicio', nome: 'Início', render: viewInicio },
   { id: 'apresentar', nome: 'Apresentar', render: viewApresentar, mount: mountApresentar, unmount: unmountApresentar, flush: true },
   { id: 'roteiro', nome: 'Roteiro', render: viewRoteiro, mount: mountRoteiro, unmount: unmountRoteiro },
+  { id: 'calculadora', nome: 'Calculadora', curto: 'Fluxo', render: viewCalculadora, mount: mountCalculadora, unmount: unmountCalculadora },
   { id: 'unidades', nome: 'Unidades', render: viewUnidades, mount: mountUnidades, unmount: unmountUnidades },
   { id: 'perguntas', nome: 'Perguntas', render: viewPerguntas, mount: mountPerguntas },
   { id: 'pendencias', nome: 'Pendências', render: viewPendencias, mount: mountPendencias }
@@ -3000,7 +3875,7 @@ const go = id => { if (location.hash === '#/' + id) route(); else location.hash 
 
 function renderChrome() {
   const st = stats();
-  $('#nav').innerHTML = VIEWS.map(v => '<button type="button" data-nav="' + v.id + '" class="' + (cur && cur.id === v.id ? 'on' : '') + '">' + IC[v.id] + '<span>' + v.nome + '</span>' +
+  $('#nav').innerHTML = VIEWS.map(v => '<button type="button" data-nav="' + v.id + '" class="' + (cur && cur.id === v.id ? 'on' : '') + '">' + IC[v.id] + '<span>' + v.nome + '</span>' + (v.curto ? '<span class="s">' + v.curto + '</span>' : '') +
     (v.id === 'pendencias' && st.abertas ? '<i class="badge">' + st.abertas + '</i>' : '') + '</button>').join('');
   const dd = idadeDias();
   $('#side-status').innerHTML = 'Tabela ' + esc(S.tabela.nome) + ' · ' + (dd === 0 ? 'de hoje' : 'há ' + dd + (dd === 1 ? ' dia' : ' dias')) + '<br>' + st.n + ' disponíveis · ' + st.promos + ' promoção(ões)' +
@@ -3399,7 +4274,7 @@ function drawerHTML(u) {
     '<tr class="tot"><td><b>Valor de tabela</b></td><td></td><td>' + brl(u.valor) + '</td></tr></table>' +
     '<p class="small-note">' + brl(u.m2) + ' por m². A soma das parcelas pode diferir do valor por centavos de arredondamento. Correção: ' + esc(AQ.meta.correcao) + '</p></div>' +
     (promo ? '<div class="callout"><b>Condição promocional cadastrada:</b> ' + esc(promo.cond) + (promo.validade ? ' · validade ' + fmtDate(promo.validade) : '') + (promo.obs ? '<br>' + esc(promo.obs) : '') + '</div>' : '') +
-    '<div class="dr-act"><button type="button" class="btn primary" data-act="copy-resumo" data-u="' + u.u + '">Copiar resumo</button><button type="button" class="btn" data-act="cmp-add" data-u="' + u.u + '">' + (UI.cmp.includes(u.u) ? 'Tirar da comparação' : 'Comparar') + '</button>' +
+    '<div class="dr-act"><button type="button" class="btn primary" data-act="copy-resumo" data-u="' + u.u + '">Copiar resumo</button><button type="button" class="btn" data-act="calc-unit" data-u="' + u.u + '">Simular fluxo</button><button type="button" class="btn" data-act="cmp-add" data-u="' + u.u + '">' + (UI.cmp.includes(u.u) ? 'Tirar da comparação' : 'Comparar') + '</button>' +
     '<button type="button" class="btn danger" data-act="vendida" data-u="' + u.u + '">Marcar como vendida</button></div>' +
     '<p class="small-note">' + esc(AQ.meta.aviso) + '</p></div>';
 }
@@ -3622,6 +4497,7 @@ document.addEventListener('click', e => {
   else if (act === 'close-modal') { if (a.classList.contains('modal-bg') && t !== a) return; closeModal(); }
   else if (act === 'dados') openDados();
   else if (act === 'csv') { download('aquarella-up-tabela-' + S.tabela.nome.replace(/[^A-Za-z0-9]+/g, '-').toLowerCase() + '.csv', tabelaCSV(), 'text/csv;charset=utf-8'); }
+  else if (act === 'calc-unit') { if (CALC) { CALC.pick(un2); closeDrawer(); go('calculadora'); } }
   else if (act === 'copy-resumo') { const u = units().find(x => x.u === un2); if (u) copyText(resumo(u), 'Resumo copiado'); }
   else if (act === 'cmp-add') { toggleCmp(un2); const u = units().find(x => x.u === un2); if (u && $('#drawer').classList.contains('open')) $('#drawer').innerHTML = drawerHTML(u); }
   else if (act === 'cmp-open') openCompare();
